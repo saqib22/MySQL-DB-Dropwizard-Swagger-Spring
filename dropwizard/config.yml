@@ -1,0 +1,40 @@
+defaultName: ${DW_DEFAULT_NAME:-IoT}
+
+server:
+  applicationConnectors:
+    - type: http
+      port: 18080
+  adminConnectors:
+    - type: http
+      port: 18082
+
+
+  
+# Logging settings.
+logging:
+  level: INFO
+  loggers:
+    com.hashirahmad.dropwizard: INFO
+
+    # Redirects SQL logs to a separate file
+    org.hibernate.SQL:
+      level: INFO
+  appenders:    
+    - type: console
+    - type: file
+      threshold: INFO
+      logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
+      currentLogFilename: ./log/application.log
+      archivedLogFilenamePattern: ./log/application-%d{yyyy-MM-dd}-%i.log.gz
+      archivedFileCount: 7
+      timeZone: UTC
+      maxFileSize: 10MB
+
+viewRendererConfiguration:
+    .ftl:
+        strict_syntax: yes
+        whitespace_stripping: yes
+
+swagger:
+  resourcePackage: com.hashirahmad.dropwizard
+  
